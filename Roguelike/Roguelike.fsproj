@@ -54,6 +54,11 @@
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
     <None Include="MonoGame.Framework.dll.config" />
+    <None Include="Content\obstacle.png" />
+    <None Include="Content\player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
 </Project>
