@@ -2,12 +2,14 @@
 
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
+open Entity
 
 type MonoGame () as game =
     inherit Game ()
 
-    let mutable texture = Unchecked.defaultof<Texture2D>
-    let mutable graphics = Unchecked.defaultof<GraphicsDeviceManager>
+    let mutable entities    = []
+    let mutable texture     = Unchecked.defaultof<Texture2D>
+    let mutable graphics    = Unchecked.defaultof<GraphicsDeviceManager>
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
     do 
         graphics <- new GraphicsDeviceManager (game)
@@ -20,9 +22,16 @@ type MonoGame () as game =
     override game.LoadContent () =
         spriteBatch <- new SpriteBatch (graphics.GraphicsDevice)
 
-        texture <- new Texture2D (graphics.GraphicsDevice, 32, 32)
-        texture.SetData <| Array.create (32*32) Color.Chocolate
+        //texture <- new Texture2D (graphics.GraphicsDevice, 32, 32)
+        //texture.SetData <| Array.create (32*32) Color.Chocolate
 
+        let pixel = new Texture2D (graphics.GraphicsDevice, 1, 1)
+        pixel.SetData<Color> [|Color.White|]
+        let entity : Entity = { components = 
+                                    [ Position(new Vector2(float32 64, float32 64));
+                                      Appearance(pixel) ] 
+                              }
+        entities <- entity :: entities
         ()
      
     override game.Update (gameTime) =
@@ -31,10 +40,6 @@ type MonoGame () as game =
      
     override game.Draw (gameTime) =
         game.GraphicsDevice.Clear Color.CornflowerBlue
-
-        spriteBatch.Begin ()
-        spriteBatch.Draw (texture, new Vector2 (float32 10, float32 20), Color.White)
-        spriteBatch.End ()
-
+        DrawEntities game.GraphicsDevice entities
         base.Draw gameTime
         ()

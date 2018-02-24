@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Entity.fs" />
     <Compile Include="MonoGame.fs" />
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
